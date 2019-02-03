@@ -6,10 +6,10 @@
 package main
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
-	"encoding/json"
-	"io"
+	"crypto/sha256" // pertmet d'importer la fonction de hash
+	"encoding/hex"  // hex implements hexadecimal encoding and decoding
+	"encoding/json" // permet l'encodage en format JSON
+	"io"			
 	"log"
 	"net/http"
 	"os"
@@ -30,7 +30,7 @@ type Block struct {
 
 var Blockchain []Block
 
-func calculateHash(block Block) string {
+func calculateHash(block Block) string { //cette fonction sert a calculer le hash d'un block
 	record := string(block.Index) + block.Timestamp + string(block.BPM) + block.PrevHash
 	h := sha256.New()
 	h.Write([]byte(record))
@@ -38,7 +38,7 @@ func calculateHash(block Block) string {
 	return hex.EncodeToString(hashed)
 }
 
-func generateBlock(oldBlock Block, BPM int) (Block, error) {
+func generateBlock(oldBlock Block, BPM int) (Block, error) { //génère un nouveau block
 
 	var newBlock Block
 
@@ -53,7 +53,7 @@ func generateBlock(oldBlock Block, BPM int) (Block, error) {
 	return newBlock, nil
 }
 
-func isBlockValid(newBlock, oldBlock Block) bool {
+func isBlockValid(newBlock, oldBlock Block) bool {//vérifie la validité d'un Block
 	if oldBlock.Index+1 != newBlock.Index {
 		return false
 	}
